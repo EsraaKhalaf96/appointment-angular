@@ -2,7 +2,7 @@
   <form
     class="form"
     [formGroup]="formObject"
-    (ngSubmit)="sendSMS()"
+    (ngSubmit)="getAppontmentData()"
     role="form"
   >
     <h3>تعديل موعد</h3>
@@ -53,14 +53,18 @@
           >رقم الجوال
           <span class="required">*</span>
         </label>
-        <!-- <p-inputMask id="field_customerMobileNo" placeholder="ادخل رقم الجوال"
-                    formControlName="customerMobileNo" mask="059-999-9999"></p-inputMask> -->
-        <input
+        <p-inputMask
+          id="field_customerMobileNo"
+          placeholder="ادخل رقم الجوال"
+          formControlName="customerMobileNo"
+          mask="05999999999"
+        ></p-inputMask>
+        <!-- <input
           type="text"
           id="field_customerMobileNo"
           placeholder="ادخل رقم الجوال"
           formControlName="customerMobileNo"
-        />
+        /> -->
         <div
           class="txt-valid"
           *ngIf="

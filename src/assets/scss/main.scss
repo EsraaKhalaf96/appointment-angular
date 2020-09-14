@@ -977,22 +977,30 @@ html input[disabled] {
     width: 110px;
     height: 25vh;
   }
-  .confirm-tel-popup .title{
+  .confirm-tel-popup .title {
     margin: 20px 0 20px 0;
 
-    h3{
-      font-size:20px;
+    h3 {
+      font-size: 20px;
     }
   }
 }
 
-@media screen and (max-width: 400px) {
-  .home-content .home-header img ,
-  .pages-content .pages-header img{
+@media screen and (max-width: 300px) {
+  .home-content .home-header img,
+  .pages-content .pages-header img {
     width: 70px;
   }
 
-  .footer .imgs img{
+  .footer .imgs img {
     width: 25%;
+  }
+  .booking-info .backTo-home a {
+    margin-left: 0;
+  }
+}
+@media screen and (max-width: 400px) {
+  .booking-info .backTo-home a {
+    margin-left: 0;
   }
 }

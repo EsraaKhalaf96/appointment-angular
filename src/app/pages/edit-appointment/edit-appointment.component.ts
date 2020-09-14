@@ -48,10 +48,30 @@ export class EditAppointmentComponent extends FormBase implements OnInit {
     });
   }
 
-  sendSMS() {
+  getAppontmentData() {
     if (this.validateForm().length > 0) {
       return;
     }
+    this.loaderService.show();
+    let appointmetId = this.formObject.value.refrenceNum;
+    this._editAppointment
+      .getAppointmentData(appointmetId)
+      .subscribe((result) => {
+        if (result.responseType == "1") {
+          this.sendSMS();
+        } else {
+          this.loaderService.hide();
+          this._msgs.showMessage(
+            result.exceptionList[0].msgAr.message,
+            MessagesTypeEnum.Error
+          );
+        }
+      });
+  }
+  sendSMS() {
+    // if (this.validateForm().length > 0) {
+    //   return;
+    // }
 
     this.loaderService.show();
     let formData = {

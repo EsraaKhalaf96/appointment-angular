@@ -15,4 +15,8 @@ export class EditAppointmentService {
   validateSMSVerifyCode(model): Observable<any> {
     return this._coreService.post("/validateSMSVerifyCode", model);
   }
+
+  getAppointmentData(id): Observable<any> {
+    return this._coreService.getAll("/getAppointmentById?appointmentId=" + id);
+  }
 }

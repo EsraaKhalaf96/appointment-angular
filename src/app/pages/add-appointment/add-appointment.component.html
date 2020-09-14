@@ -55,16 +55,21 @@
           >رقم الجوال
           <span class="required">*</span>
         </label>
-        <!-- <p-inputMask id="field_customerMobileNo" placeholder="ادخل رقم الجوال"
-                    formControlName="customerMobileNo" [readonly]="userMobileDisabled" mask="059-999-9999">
-                </p-inputMask> -->
-        <input
+        <p-inputMask
+          id="field_customerMobileNo"
+          placeholder="ادخل رقم الجوال"
+          formControlName="customerMobileNo"
+          [readonly]="userMobileDisabled"
+          mask="05999999999"
+        >
+        </p-inputMask>
+        <!-- <input
           type="text"
           id="field_customerMobileNo"
           placeholder="ادخل رقم الجوال"
           formControlName="customerMobileNo"
           [readonly]="userMobileDisabled"
-        />
+        /> -->
 
         <div
           class="txt-valid"
@@ -252,6 +257,7 @@
           formControlName="apointmentDayDate"
           (onSelect)="getTimeSlots($event)"
           [locale]="ar"
+          [minDate]="minDate"
         >
         </p-calendar>
         <span

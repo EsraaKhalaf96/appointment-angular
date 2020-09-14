@@ -1,104 +1,101 @@
 <div class="booking-info" *ngIf="appointmentConfirmation">
-    <div class="row">
-        <div class="booking-section">
-            <h3 class="text-center">تم حجز موعدك بنجاح</h3>
-            <div class="check-img">
-                <img src="assets/images/check-circle.png">
+  <div class="row">
+    <div class="booking-section">
+      <h3 class="text-center">تم حجز موعدك بنجاح</h3>
+      <div class="check-img">
+        <img src="assets/images/check-circle.png" />
+      </div>
+      <p class="refrenceNum">
+        <span>رقمك المرجعي</span>
+        <span>
+          {{ referenceNum }}
+        </span>
+      </p>
+      <hr />
+      <h4 class="text-center">معلومات الحجز</h4>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="book-info">
+            <label>معلوماتك الشخصيه </label>
+            <div>
+              <i class="fa fa-address-card"></i>
+              <label class="p-l-15">الاسم</label>
+              <span class="info-details">{{ userName }}</span>
             </div>
-            <p class="refrenceNum">
-                <span>رقمك المرجعي</span>
-                <span>
-                    {{referenceNum}}
-                </span>
-            </p>
-            <hr />
-            <h4 class="text-center">معلومات الحجز</h4>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="book-info">
-                        <label>معلوماتك الشخصيه </label>
-                        <div>
-                            <i class="fa fa-address-card"></i>
-                            <label class="p-l-15">الاسم</label>
-                            <span class="info-details">{{userName}}</span>
-                        </div>
-                        <div>
-                            <i class="fa fa-mobile" aria-hidden="true"></i>
-                            <label class="p-l-15">الهاتف</label>
-                            <span class="info-details">{{userPhone}}</span>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="book-info">
-                        <label>مركز الفحص</label>
-                        <div class="">
-                            <i class="fa fa-map-marker" aria-hidden="true"></i>
-                            <span class="info-details">{{appointmentCenterName}}</span>
-                            <div class="location">
-                                {{appointmentAddress}}
-                                <a href="{{mapLocation}}" target="_blank"><img src="assets/images/location.png"></a>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
+            <div>
+              <i class="fa fa-mobile" aria-hidden="true"></i>
+              <label class="p-l-15">الهاتف</label>
+              <span class="info-details">{{ userPhone }}</span>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="book-info">
-                        <label>موعد الفحص</label>
-
-                        <div class="dateTime">
-                            <div class="d-flex">
-                                <i class="fa fa-calendar" aria-hidden="true"></i>
-                                <span class="info-details"> {{appointmentDate}} </span>
-                            </div>
-                            <div class="time">
-                                <i class="fa fa-clock-o" aria-hidden="true"></i>
-
-                                <span class="info-details"> {{appointmentTime}}</span>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="book-info">
-                        <label>نوع الفحص</label>
-                        <div class="d-flex">
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                            <span class="info-details">{{appointmentService}}</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+          </div>
         </div>
-        <div class="backTo-home">
-            <a [routerLink]="['/home']" routerLinkActive="router-link-active">الرئيسية</a>
+        <div class="col-md-6">
+          <div class="book-info">
+            <label>مركز الفحص</label>
+            <div class="">
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
+              <span class="info-details">{{ appointmentCenterName }}</span>
+              <div class="location">
+                {{ appointmentAddress }}
+                <a href="{{ mapLocation }}" target="_blank"
+                  ><img src="assets/images/location.png"
+                /></a>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="book-info">
+            <label>موعد الفحص</label>
 
+            <div class="dateTime">
+              <div class="d-flex">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+                <span class="info-details"> {{ appointmentDate }} </span>
+              </div>
+              <div class="time">
+                <i class="fa fa-clock-o" aria-hidden="true"></i>
+
+                <span class="info-details"> {{ appointmentTime }} </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="book-info">
+            <label>نوع الفحص</label>
+            <div class="d-flex">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+              <span class="info-details">{{ appointmentService }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <div class="backTo-home">
+      <a [routerLink]="['/home']" routerLinkActive="router-link-active"
+        >الرئيسية</a
+      >
+    </div>
+  </div>
 </div>
 
 <div class="booking-info appointmentDeletion" *ngIf="appointmentDeletion">
-    <div class="row">
-        <div class="booking-section">
-            <h3 class="text-center">تم إلغاء موعدك </h3>
-            <div class="check-img">
-                <img src="assets/images/cancel-circle.png">
-            </div>
-            <p class="text-center"> تم إلغاء موعدك بنجاح </p>
-            <p class="text-center">  يمكنك حجز موعد اخر من خلال الصفحة الرئيسية</p>
-            <div class="backTo-home">
-                <a [routerLink]="['/home']" routerLinkActive="router-link-active">الرئيسية</a>
-            </div>
-        </div>
-        
-
+  <div class="row">
+    <div class="booking-section">
+      <h3 class="text-center">تم إلغاء موعدك</h3>
+      <div class="check-img">
+        <img src="assets/images/cancel-circle.png" />
+      </div>
+      <p class="text-center">تم إلغاء موعدك بنجاح</p>
+      <p class="text-center">يمكنك حجز موعد اخر من خلال الصفحة الرئيسية</p>
+      <div class="backTo-home">
+        <a [routerLink]="['/home']" routerLinkActive="router-link-active"
+          >الرئيسية</a
+        >
+      </div>
     </div>
+  </div>
 </div>
