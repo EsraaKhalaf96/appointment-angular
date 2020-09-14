@@ -1,0 +1,364 @@
+<div class="form-section">
+  <form
+    class="form"
+    [formGroup]="formObject"
+    (ngSubmit)="sendSMS()"
+    role="form"
+  >
+    <h3>احجز موعدك</h3>
+    <div
+      class="alert alert-danger alert-server-messages"
+      *ngIf="_messages.length > 0"
+    >
+      <!-- <p>There are more than error :</p> -->
+      <ul class="list-unstyled list-inline errors-list">
+        <!-- <li *ngFor="let error of _messages" class="list-inline-item">
+                    {{error}},
+                </li> -->
+        <p>من فضلك اكمل البيانات المطلوبة</p>
+      </ul>
+    </div>
+    <div class="form-row">
+      <span class="form-info">معلوماتك الشخصية</span>
+      <div class="form-group col-md-6">
+        <label for="customerName">
+          الاسم
+          <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="field_customerName"
+          name="customerName"
+          placeholder="ادخل الاسم"
+          formControlName="customerName"
+          [readonly]="userNameDisabled"
+        />
+        <div
+          class="txt-valid"
+          *ngIf="
+            formObject.get('customerName').invalid &&
+            (formObject.get('customerName').dirty ||
+              formObject.get('customerName').touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="formObject.get('customerName').errors.required"
+          >
+            هذا الحقل مطلوب
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="customerMobileNo"
+          >رقم الجوال
+          <span class="required">*</span>
+        </label>
+        <!-- <p-inputMask id="field_customerMobileNo" placeholder="ادخل رقم الجوال"
+                    formControlName="customerMobileNo" [readonly]="userMobileDisabled" mask="059-999-9999">
+                </p-inputMask> -->
+        <input
+          type="text"
+          id="field_customerMobileNo"
+          placeholder="ادخل رقم الجوال"
+          formControlName="customerMobileNo"
+          [readonly]="userMobileDisabled"
+        />
+
+        <div
+          class="txt-valid"
+          *ngIf="
+            formObject.get('customerMobileNo').invalid &&
+            (formObject.get('customerMobileNo').dirty ||
+              formObject.get('customerMobileNo').touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="formObject.get('customerMobileNo').errors.required"
+          >
+            هذا الحقل مطلوب
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="customerEmail"
+          >البريد الالكترونى
+          <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="field_customerEmail"
+          name="customerEmail"
+          placeholder="ادخل بريدك الإلكتروني"
+          formControlName="customerEmail"
+          [readonly]="userEmailDisabled"
+        />
+        <div
+          class="txt-valid"
+          *ngIf="
+            formObject.get('customerEmail').invalid &&
+            (formObject.get('customerEmail').dirty ||
+              formObject.get('customerEmail').touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="formObject.get('customerEmail').errors.required"
+          >
+            هذا الحقل مطلوب
+          </small>
+          <small
+            class="form-text text-danger"
+            *ngIf="formObject.get('customerEmail').errors.email"
+          >
+            البريد الإلكتروني غير صحيح
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <span class="form-info"> مركز الفحص </span>
+      <div class="form-group col-md-6">
+        <label for="vehicleClassId"
+          >نوع المركبة
+          <span class="required">*</span>
+          <img
+            src="assets/images/loader.gif"
+            class="loader-gif"
+            *ngIf="classesDDLLoader"
+          />
+        </label>
+        <p-dropdown
+          [options]="vehicleClassList"
+          [disabled]="classesDDLDisabled"
+          formControlName="vehicleClassId"
+          [filter]="true"
+          dataKey="string"
+          filterBy="label"
+          styleClass="primeComponent"
+          (onChange)="getServiceTypesList($event.value)"
+        ></p-dropdown>
+        <div
+          class="txt-valid"
+          *ngIf="
+            formObject.get('vehicleClassId').invalid &&
+            (formObject.get('vehicleClassId').dirty ||
+              formObject.get('vehicleClassId').touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="formObject.get('vehicleClassId').errors.required"
+          >
+            هذا الحقل مطلوب
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="serviceId"
+          >اختر نوع خدمة الفحص
+          <span class="required">*</span>
+          <img
+            src="assets/images/loader.gif"
+            class="loader-gif"
+            *ngIf="serviceDDLLoader"
+          />
+        </label>
+        <p-dropdown
+          [options]="serviceTypeList"
+          [disabled]="serviceDDLDisabled"
+          formControlName="serviceId"
+          [filter]="true"
+          filterBy="label"
+          dataKey="string"
+          styleClass="primeComponent"
+          (onChange)="serviceChange($event.value)"
+        ></p-dropdown>
+        <div
+          class="txt-valid"
+          *ngIf="
+            formObject.get('serviceId').invalid &&
+            (formObject.get('serviceId').dirty ||
+              formObject.get('serviceId').touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="formObject.get('serviceId').errors.required"
+          >
+            هذا الحقل مطلوب
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="centerId"
+          >اختر مركز الفحص
+          <span class="required">*</span>
+          <img
+            src="assets/images/loader.gif"
+            class="loader-gif"
+            *ngIf="centersDDLLoader"
+          />
+        </label>
+        <p-dropdown
+          [options]="appointmentCentersList"
+          [disabled]="centersDDLDisabled"
+          (onChange)="centersChange($event.value)"
+          dataKey="string"
+          formControlName="centerId"
+          [filter]="true"
+          filterBy="label"
+          styleClass="primeComponent"
+          (onShow)="getAppointmentCenterList(selectedServiceType)"
+        >
+        </p-dropdown>
+        <div
+          class="txt-valid"
+          *ngIf="
+            formObject.get('centerId').invalid &&
+            (formObject.get('centerId').dirty ||
+              formObject.get('centerId').touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="formObject.get('centerId').errors.required"
+          >
+            هذا الحقل مطلوب
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <span class="form-info">موعد الفحص</span>
+      <div class="form-group col-md-6">
+        <label for="apointmentDayDate"
+          >تاريخ الفحص
+          <span class="required">*</span>
+        </label>
+        <p-calendar
+          styleClass="primeComponent"
+          format="mm-dd-yyyy"
+          [monthNavigator]="true"
+          [yearNavigator]="true"
+          yearRange="1970:2030"
+          name="apointmentDayDate"
+          formControlName="apointmentDayDate"
+          (onSelect)="getTimeSlots($event)"
+          [locale]="ar"
+        >
+        </p-calendar>
+        <span
+          *ngIf="validateControl('apointmentDayDate')"
+          class="required d-block"
+        >
+          هذا الحقل مطلوب
+        </span>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="">
+          وقت الفحص
+          <span class="required">*</span>
+          <img
+            src="assets/images/loader.gif"
+            class="loader-gif"
+            *ngIf="timesDDLLoader"
+          />
+        </label>
+        <p-dropdown
+          [options]="timeSlotList"
+          [disabled]="timeSlotsDDLDisabled"
+          [filter]="true"
+          filterBy="label"
+          styleClass="primeComponent"
+          name="apointmentStartTime"
+          (onChange)="timeSlotChange($event.value)"
+        >
+        </p-dropdown>
+        <!-- <div class='txt-valid'
+                    *ngIf="formObject.get('apointmentStartTime').invalid && (formObject.get('apointmentStartTime').dirty || formObject.get('apointmentStartTime').touched)">
+                    <small class="form-text text-danger" *ngIf="formObject.get('apointmentStartTime').errors.required">
+                        هذا الحقل مطلوب
+                    </small>
+                </div> -->
+      </div>
+    </div>
+    <div class="form-row book-now-btn">
+      <button type="submit">التالي</button>
+    </div>
+  </form>
+</div>
+
+<!-- The Modal -->
+<div
+  class="modal fade confirm-tel-popup"
+  [ngClass]="{ show: showDialog }"
+  id="myModal"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <span class="close" (click)="showMobileDialog(false)"
+        ><i class="fa fa-times" aria-hidden="true"></i
+      ></span>
+      <div class="modal-body">
+        <div class="title">
+          <div class="astrics">****</div>
+          <h3>تم إرسال كلمة السر إلى الرقم المسجل</h3>
+          <p>من فضلك ادخل كلمة السر للتأكيد</p>
+        </div>
+
+        <div class="secretWordForm">
+          <div class="form-group clearfix">
+            <div
+              class="alert alert-danger alert-server-messages"
+              *ngIf="showSecretWordValidation"
+            >
+              <ul class="list-unstyled list-inline errors-list">
+                <p>ادخل كلمة السر صحيحة</p>
+              </ul>
+            </div>
+            <label for="secretWord">
+              ادخل كلمة السر
+              <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="secretWord"
+              [(ngModel)]="mobileSecretWord"
+              class="form-control"
+              name="secretWord"
+              placeholder="كلمة السر"
+            />
+            <button
+              (click)="sendSMS()"
+              class="resendSMS"
+              [disabled]="disableSendSMS"
+            >
+              إعادة إرسال كلمة السر
+            </button>
+            <span>
+              <countdown
+                #cd
+                [config]="{ leftTime: countDownMinutes * 60 }"
+              ></countdown>
+            </span>
+          </div>
+        </div>
+
+        <div class="confirm">
+          <button type="button" class="btn" (click)="addAppointment()">
+            تأكيــد
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" [ngClass]="{ show: showDialog }"></div>

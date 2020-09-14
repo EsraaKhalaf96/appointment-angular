@@ -1,0 +1,161 @@
+<div class="form-section">
+  <form
+    class="form"
+    [formGroup]="formObject"
+    (ngSubmit)="sendSMS()"
+    role="form"
+  >
+    <h3>إلغاء موعد</h3>
+    <div
+      class="alert alert-danger alert-server-messages"
+      *ngIf="_messages.length > 0"
+    >
+      <!-- <p>There are more than error :</p> -->
+      <ul class="list-unstyled list-inline errors-list">
+        <!-- <li *ngFor="let error of _messages" class="list-inline-item">
+                     {{error}},
+                 </li> -->
+        <p>من فضلك اكمل البيانات المطلوبة</p>
+      </ul>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="refrenceNum">
+          الرقم المرجعي
+          <span class="required">*</span>
+        </label>
+        <input
+          type="text"
+          id="field_refrenceNum"
+          name="refrenceNum"
+          placeholder="ادخل الرقم المرجعي"
+          formControlName="refrenceNum"
+        />
+        <div
+          class="txt-valid"
+          *ngIf="
+            formObject.get('refrenceNum').invalid &&
+            (formObject.get('refrenceNum').dirty ||
+              formObject.get('refrenceNum').touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="formObject.get('refrenceNum').errors.required"
+          >
+            هذا الحقل مطلوب
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="customerMobileNo"
+          >رقم الجوال
+          <span class="required">*</span>
+        </label>
+        <!-- <p-inputMask id="field_customerMobileNo" name="customerMobileNo" placeholder="ادخل رقم الجوال"
+                    formControlName="customerMobileNo" mask="059-999-9999"></p-inputMask> -->
+        <input
+          type="text"
+          id="field_customerMobileNo"
+          name="customerMobileNo"
+          placeholder="ادخل رقم الجوال"
+          formControlName="customerMobileNo"
+        />
+        <div
+          class="txt-valid"
+          *ngIf="
+            formObject.get('customerMobileNo').invalid &&
+            (formObject.get('customerMobileNo').dirty ||
+              formObject.get('customerMobileNo').touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="formObject.get('customerMobileNo').errors.required"
+          >
+            هذا الحقل مطلوب
+          </small>
+          <small
+            class="form-text text-danger"
+            *ngIf="formObject.get('customerMobileNo').errors.invalid"
+          >
+            هذا الحقل مطلوب
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row book-now-btn">
+      <button type="submit">التالي</button>
+    </div>
+  </form>
+</div>
+
+<!-- The Modal -->
+<div
+  class="modal fade confirm-tel-popup"
+  [ngClass]="{ show: showDialog }"
+  id="myModal"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <span class="close" (click)="showMobileDialog(false)"
+        ><i class="fa fa-times" aria-hidden="true"></i
+      ></span>
+      <div class="modal-body">
+        <div class="title">
+          <div class="astrics">****</div>
+          <h3>تم إرسال كلمة السر إلى الرقم المسجل</h3>
+          <p>من فضلك ادخل كلمة السر للتأكيد</p>
+        </div>
+
+        <div class="secretWordForm">
+          <div class="form-group clearfix">
+            <div
+              class="alert alert-danger alert-server-messages"
+              *ngIf="showSecretWordValidation"
+            >
+              <ul class="list-unstyled list-inline errors-list">
+                <p>ادخل كلمة السر صحيحة</p>
+              </ul>
+            </div>
+            <label for="secretWord">
+              ادخل كلمة السر
+              <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="secretWord"
+              [(ngModel)]="mobileSecretWord"
+              class="form-control"
+              name="secretWord"
+              placeholder="كلمة السر"
+            />
+            <button
+              (click)="sendSMS()"
+              class="resendSMS"
+              [disabled]="disableSendSMS"
+            >
+              إعادة إرسال كلمة السر
+            </button>
+            <span>
+              <countdown
+                #cd
+                [config]="{ leftTime: countDownMinutes * 60 }"
+              ></countdown>
+            </span>
+          </div>
+        </div>
+
+        <div class="confirm">
+          <button type="button" class="btn" (click)="deleteAppointment()">
+            تأكيــد
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" [ngClass]="{ show: showDialog }"></div>

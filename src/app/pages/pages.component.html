@@ -1,0 +1,29 @@
+<div class="pages-content">
+    <div class="pages-header">
+        <a [routerLink]="['/']">
+            <img src="assets/images/logo.png" alt="">
+        </a>
+    </div>
+    <div class="content-body clearfix">
+        <div class="left">
+            <div class="title">
+                <label>سلامتك</label>
+                <label>من سلامة مركبتك</label>
+            </div>
+            <img src="assets/images/car-internal.png" class="img-fluid" />
+        </div>
+        <div class="right">
+            <router-outlet></router-outlet>
+        </div>
+
+    </div>
+    <div class="clearfix"></div>
+    <div class="footer">
+        <div class="imgs">
+            <img src="assets/images/2030.svg" alt="img">
+            <img src="assets/images/traffic.svg" alt="img">
+            <img src="assets/images/takamol.svg" alt="img">
+        </div>
+        <p>© 2020 SALAMAH. | All Rights Reserved</p>
+    </div>
+</div>
