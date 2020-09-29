@@ -32,6 +32,7 @@
           placeholder="ادخل الاسم"
           formControlName="customerName"
           [readonly]="userNameDisabled"
+          tabindex="1"
         />
         <div
           class="txt-valid"
@@ -55,21 +56,23 @@
           >رقم الجوال
           <span class="required">*</span>
         </label>
-        <p-inputMask
+        <!-- <p-inputMask
           id="field_customerMobileNo"
           placeholder="ادخل رقم الجوال"
           formControlName="customerMobileNo"
           [readonly]="userMobileDisabled"
-          mask="05999999999"
+          mask="0599999999"
         >
-        </p-inputMask>
-        <!-- <input
+        </p-inputMask> -->
+        <input
           type="text"
           id="field_customerMobileNo"
           placeholder="ادخل رقم الجوال"
           formControlName="customerMobileNo"
           [readonly]="userMobileDisabled"
-        /> -->
+          tabindex="2"
+
+        />
 
         <div
           class="txt-valid"
@@ -100,6 +103,7 @@
           placeholder="ادخل بريدك الإلكتروني"
           formControlName="customerEmail"
           [readonly]="userEmailDisabled"
+          tabindex="3"
         />
         <div
           class="txt-valid"
@@ -146,6 +150,8 @@
           filterBy="label"
           styleClass="primeComponent"
           (onChange)="getServiceTypesList($event.value)"
+          tabindex="4"
+          
         ></p-dropdown>
         <div
           class="txt-valid"
@@ -183,6 +189,7 @@
           dataKey="string"
           styleClass="primeComponent"
           (onChange)="serviceChange($event.value)"
+          tabindex="5"
         ></p-dropdown>
         <div
           class="txt-valid"
@@ -221,6 +228,7 @@
           filterBy="label"
           styleClass="primeComponent"
           (onShow)="getAppointmentCenterList(selectedServiceType)"
+          tabindex="6"
         >
         </p-dropdown>
         <div
@@ -248,7 +256,8 @@
           <span class="required">*</span>
         </label>
         <p-calendar
-          styleClass="primeComponent"
+
+          styleClass="primeComponent clenderReadOnly"
           format="mm-dd-yyyy"
           [monthNavigator]="true"
           [yearNavigator]="true"
@@ -258,6 +267,9 @@
           (onSelect)="getTimeSlots($event)"
           [locale]="ar"
           [minDate]="minDate"
+          tabindex="7"
+          [(ngModel)]="defaultDate" 
+          [readonlyInput]="readonlyInput"
         >
         </p-calendar>
         <span
@@ -285,6 +297,8 @@
           styleClass="primeComponent"
           name="apointmentStartTime"
           (onChange)="timeSlotChange($event.value)"
+          tabindex="8"
+          
         >
         </p-dropdown>
         <!-- <div class='txt-valid'

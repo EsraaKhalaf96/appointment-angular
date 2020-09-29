@@ -97,7 +97,10 @@
   font-family: flatfont;
   src: url("assets/fonts/JF-Flat-Regular.ttf");
 }
-
+@font-face {
+  font-family: lato-reguar;
+  src: url("assets/fonts/Lato-Regular.ttf");
+}
 .d-block {
   display: block;
 }
@@ -488,8 +491,23 @@ body {
 .footer p {
   color: #a6a6a6;
   unicode-bidi: plaintext;
+  position: relative;
+  font-family: lato-reguar;
+  font-size: 15px;
 }
-
+// .footer p:after {
+//   content: "";
+//   position: absolute;
+//   width: 1.5px;
+//   height: 62%;
+//   background: #a6a6aaad;
+//   left: 155px;
+//   margin: auto;
+//   top: 7px;
+// }
+// .footer p span:first-child {
+//   margin-right: 11px;
+// }
 /*start form page*/
 
 .form-section form h3 {
@@ -523,7 +541,8 @@ body {
 .form-section form input:hover,
 .form-section form input:active,
 .form-section form input:visited,
-.form-section form input:focus-within {
+.form-section form input:focus-within 
+{
   border: 1px solid #4bcf72;
   outline: none;
 }
@@ -667,6 +686,18 @@ body {
 .primeComponent {
   width: 90% !important;
   border: 1px solid #cecece !important;
+  &:focus,
+  &:hover,
+  &:active,
+  &:visited,
+  &:focus-within
+  {
+    border: 1px solid #4bcf72;
+    outline: none;
+  }
+  &.clenderReadOnly input[readonly]{
+    background-color: #ffff !important;
+  }
 }
 
 .ui-dropdown .ui-dropdown-trigger {

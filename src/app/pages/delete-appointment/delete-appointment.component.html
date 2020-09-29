@@ -55,13 +55,20 @@
         </label>
         <!-- <p-inputMask id="field_customerMobileNo" name="customerMobileNo" placeholder="ادخل رقم الجوال"
                     formControlName="customerMobileNo" mask="059-999-9999"></p-inputMask> -->
-        <input
+        <!-- <input
           type="text"
           id="field_customerMobileNo"
           name="customerMobileNo"
           placeholder="ادخل رقم الجوال"
           formControlName="customerMobileNo"
-        />
+        /> -->
+        <p-inputMask
+          id="field_customerMobileNo"
+          placeholder="ادخل رقم الجوال"
+          formControlName="customerMobileNo"
+          mask="0599999999"
+        >
+        </p-inputMask>
         <div
           class="txt-valid"
           *ngIf="

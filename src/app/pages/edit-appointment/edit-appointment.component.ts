@@ -22,6 +22,9 @@ export class EditAppointmentComponent extends FormBase implements OnInit {
   showSecretWordValidation: boolean = false;
   countDownMinutes: number = 0;
   disableSendSMS: boolean = true;
+  counterSendSms: number = 0;
+  maxresend: number = 1;
+  counSendSmsnextBtn: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -48,17 +51,78 @@ export class EditAppointmentComponent extends FormBase implements OnInit {
     });
   }
 
-  getAppontmentData() {
+  // getAppontmentData() {
+  //   if (this.validateForm().length > 0) {
+  //     return;
+  //   }
+  //   this.loaderService.show();
+  //   let appointmetId = this.formObject.value.refrenceNum;
+
+  //   this._editAppointment
+  //     .getAppointmentData(appointmetId)
+  //     .subscribe((result) => {
+  //       if (result.responseType == "1") {
+  //         this.sendSMS();
+  //       } else {
+  //         this.loaderService.hide();
+  //         this._msgs.showMessage(
+  //           result.exceptionList[0].msgAr.message,
+  //           MessagesTypeEnum.Error
+  //         );
+  //       }
+  //     });
+  // }
+  sendSMS() {
     if (this.validateForm().length > 0) {
       return;
     }
+
     this.loaderService.show();
-    let appointmetId = this.formObject.value.refrenceNum;
-    this._editAppointment
-      .getAppointmentData(appointmetId)
-      .subscribe((result) => {
+    let formData = {
+      customerMobileNo: this.formObject.value.customerMobileNo,
+      id: this.formObject.value.refrenceNum,
+    };
+    debugger;
+    if (this.counSendSmsnextBtn == this.maxresend) {
+       
+      this.loaderService.hide();
+      this._msgs.showMessage(
+        "لقد تجاوزت عدد مرات الارسال. يرجى المحاوله لاحقا",
+        MessagesTypeEnum.Error
+      );
+    } 
+    else {
+      this._editAppointment.sendSMS(formData).subscribe((result) => {
         if (result.responseType == "1") {
-          this.sendSMS();
+          if (result.data[0].smsError == "1") {
+            this.loaderService.hide();
+            this._msgs.showMessage(
+              result.data[0].errMsgLang2,
+              MessagesTypeEnum.Error
+            );
+          } else {
+            // console.log( this.counSendSmsnextBtn);
+            this.returnedMobileSecretWord = result.data[0].checkCode;
+            this.countDownMinutes = result.data[0].codeExp;
+            this.maxresend = result.data[0].maxResendCount;
+            this.loaderService.hide();
+            this.counSendSmsnextBtn++;
+            // console.log( this.maxresend);
+  
+            this.showDialog = true;
+            this.countdown.restart();
+            this.disableSendSMS = true; // can't click
+            // console.log("maxresend" ,this.maxresend);
+  
+            if (this.counterSendSms === this.maxresend) {
+              this.disableSendSMS = true; // can't click
+            } else {
+              setTimeout(() => {
+                this.counterSendSms++;
+                this.disableSendSMS = false; // can click
+              }, this.countDownMinutes * 60 * 1000);
+            }
+          }
         } else {
           this.loaderService.hide();
           this._msgs.showMessage(
@@ -67,36 +131,8 @@ export class EditAppointmentComponent extends FormBase implements OnInit {
           );
         }
       });
-  }
-  sendSMS() {
-    // if (this.validateForm().length > 0) {
-    //   return;
-    // }
+    }
 
-    this.loaderService.show();
-    let formData = {
-      customerMobileNo: this.formObject.value.customerMobileNo,
-      id: this.formObject.value.refrenceNum,
-    };
-    this._editAppointment.sendSMS(formData).subscribe((result) => {
-      if (result.responseType == "1") {
-        this.returnedMobileSecretWord = result.data[0].checkCode;
-        this.countDownMinutes = result.data[0].codeExp;
-        this.loaderService.hide();
-        this.showDialog = true;
-        this.countdown.restart();
-        this.disableSendSMS = true;
-        setTimeout(() => {
-          this.disableSendSMS = false;
-        }, this.countDownMinutes * 60 * 1000);
-      } else {
-        this.loaderService.hide();
-        this._msgs.showMessage(
-          result.exceptionList[0].msgAr.message,
-          MessagesTypeEnum.Error
-        );
-      }
-    });
   }
 
   editAppointment() {
@@ -114,9 +150,17 @@ export class EditAppointmentComponent extends FormBase implements OnInit {
       };
       this._editAppointment.validateSMSVerifyCode(obj).subscribe((result) => {
         if (result.responseType == "1") {
-          this.router.navigate(["/pages/appointment"], {
-            queryParams: { refrenceId: this.formObject.value.refrenceNum },
-          });
+          if (result.data[0].smsError == "1") {
+            this.loaderService.hide();
+            this._msgs.showMessage(
+              result.data[0].errMsgLang2,
+              MessagesTypeEnum.Error
+            );
+          } else {
+            this.router.navigate(["/pages/appointment"], {
+              queryParams: { refrenceId: this.formObject.value.refrenceNum },
+            });
+          }
         } else {
           this.loaderService.hide();
           this.showSecretWordValidation = true;

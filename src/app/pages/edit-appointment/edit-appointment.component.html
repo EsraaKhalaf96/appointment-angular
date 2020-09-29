@@ -2,7 +2,7 @@
   <form
     class="form"
     [formGroup]="formObject"
-    (ngSubmit)="getAppontmentData()"
+    (ngSubmit)="sendSMS()"
     role="form"
   >
     <h3>تعديل موعد</h3>
@@ -10,6 +10,7 @@
       class="alert alert-danger alert-server-messages"
       *ngIf="_messages.length > 0"
     >
+      <!-- (ngSubmit)="getAppontmentData()" -->
       <!-- <p>There are more than error :</p> -->
       <ul class="list-unstyled list-inline errors-list">
         <!-- <li *ngFor="let error of _messages" class="list-inline-item">
@@ -53,18 +54,18 @@
           >رقم الجوال
           <span class="required">*</span>
         </label>
-        <p-inputMask
+        <!-- <p-inputMask
           id="field_customerMobileNo"
           placeholder="ادخل رقم الجوال"
           formControlName="customerMobileNo"
-          mask="05999999999"
-        ></p-inputMask>
-        <!-- <input
+          mask="0599999999"
+        ></p-inputMask> -->
+        <input
           type="text"
           id="field_customerMobileNo"
           placeholder="ادخل رقم الجوال"
           formControlName="customerMobileNo"
-        /> -->
+        />
         <div
           class="txt-valid"
           *ngIf="
